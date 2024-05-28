@@ -8301,11 +8301,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem\\SchoolManagementSystem.csproj",
+      "projectUniqueName": "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem\\SchoolManagementSystem\\SchoolManagementSystem.csproj",
       "projectName": "SchoolManagementSystem",
-      "projectPath": "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem\\SchoolManagementSystem.csproj",
+      "projectPath": "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem\\SchoolManagementSystem\\SchoolManagementSystem.csproj",
       "packagesPath": "C:\\Users\\Hashir\\.nuget\\packages\\",
-      "outputPath": "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem\\obj\\",
+      "outputPath": "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem\\SchoolManagementSystem\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Hashir\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -8322,11 +8322,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem.Domain\\SchoolManagementSystem.Domain.csproj": {
-              "projectPath": "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem.Domain\\SchoolManagementSystem.Domain.csproj"
+            "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem\\SchoolManagementSystem.Domain\\SchoolManagementSystem.Domain.csproj": {
+              "projectPath": "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem\\SchoolManagementSystem.Domain\\SchoolManagementSystem.Domain.csproj"
             },
-            "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem.Infrastructure\\SchoolManagementSystem.Infrastructure.csproj": {
-              "projectPath": "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem.Infrastructure\\SchoolManagementSystem.Infrastructure.csproj"
+            "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem\\SchoolManagementSystem.Infrastructure\\SchoolManagementSystem.Infrastructure.csproj": {
+              "projectPath": "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem\\SchoolManagementSystem.Infrastructure\\SchoolManagementSystem.Infrastructure.csproj"
             }
           }
         }

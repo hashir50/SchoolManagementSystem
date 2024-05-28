@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tDrHt3vSnyZd49qAgRmimTkg7fM7K+dudgYdO6fmBgkXY4m0MKw6vcb0OHxdSoE+SRokPiZklk2mQlMNOr0X8g==",
+  "dgSpecHash": "rLc055/LfOIrgKZpK63HgJHVPR01rsi/ZLxdCvcNdxq45RsrJTOSttsEzf2JDFlpyX8QVxchrnImgPTx82rh+w==",
   "success": true,
-  "projectFilePath": "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem\\SchoolManagementSystem.csproj",
+  "projectFilePath": "E:\\WEBSITE MANAGMENT\\SchoolManagementSystem\\Backend\\SchoolManagementSystem\\SchoolManagementSystem\\SchoolManagementSystem.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Hashir\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Hashir\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
