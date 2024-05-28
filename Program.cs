@@ -1,9 +1,17 @@
+using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Domain;
 using SchoolManagementSystem.Domain.UnitOfWork;
 using SchoolManagementSystem.Infrastructure;
+using SchoolManagementSystem.Infrastructure.DBContext;
+using SchoolManagementSystem.Infrastructure.Repositories;
+using SchoolManagementSystem.Services;
 using SchoolManagementSystem.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ApplicationContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+    b => b.MigrationsAssembly("SchoolManagementSystem.Infrastructure")));
 
 // Add services to the container.
 
@@ -14,6 +22,8 @@ builder.Services.AddSwaggerGen();
 
 //Configure interfaces and services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+
 
 
 
