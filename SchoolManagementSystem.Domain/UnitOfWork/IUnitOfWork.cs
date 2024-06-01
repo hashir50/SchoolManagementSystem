@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
+using SchoolManagementSystem.Domain.Repositories;
 
 namespace SchoolManagementSystem.Domain.UnitOfWork
 {
-  public interface IUnitOfWork
+    public interface IUnitOfWork
   {
     IDbContextTransaction Begin();
     void Commit();

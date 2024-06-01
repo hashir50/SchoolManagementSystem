@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore.Storage;
-using SchoolManagementSystem.Domain;
+using SchoolManagementSystem.Domain.Repositories;
 using SchoolManagementSystem.Domain.UnitOfWork;
 using SchoolManagementSystem.Infrastructure;
 using SchoolManagementSystem.Infrastructure.DBContext;
 
 namespace SchoolManagementSystem.UnitOfWork
 {
-  public class UnitOfWork : IUnitOfWork, IDisposable
+    public class UnitOfWork : IUnitOfWork, IDisposable
   {
     private bool disposed;
     private Dictionary<string, object> repositories;

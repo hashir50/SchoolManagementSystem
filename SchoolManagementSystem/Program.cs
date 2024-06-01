@@ -1,9 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using SchoolManagementSystem.Domain;
 using SchoolManagementSystem.Domain.UnitOfWork;
-using SchoolManagementSystem.Infrastructure;
 using SchoolManagementSystem.Infrastructure.DBContext;
-using SchoolManagementSystem.Infrastructure.Repositories;
 using SchoolManagementSystem.Services;
 using SchoolManagementSystem.UnitOfWork;
 
