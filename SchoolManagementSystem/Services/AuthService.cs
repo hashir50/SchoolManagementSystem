@@ -33,7 +33,8 @@ namespace SchoolManagementSystem.Services
                 var user =  _authRepository.FirstOrDefault(
                     x =>x.Password.Equals(auth.Password) && (x.Username.Equals(auth.UserName)
                           || x.Email.Equals(auth.Email)));
-
+                if (user is null)
+                    return null;
                 return this._jwtAuthorization.CreateToken(user.Username);
             }
             catch (Exception ex)

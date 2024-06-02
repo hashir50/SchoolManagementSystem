@@ -21,7 +21,7 @@ namespace SchoolManagementSystem.Controllers
             {
                 var token = _authService.Authenticate(oAuth);
                 if (token == null)
-                    Unauthorized(new { message = "Invalid Credentials" });
+                    return Unauthorized(new { message = "Invalid Credentials" });
 
                 return Ok(new
                 {
