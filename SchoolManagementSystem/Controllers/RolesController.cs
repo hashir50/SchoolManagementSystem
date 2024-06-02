@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SchoolManagementSystem.DTOs;
+using SchoolManagementSystem.Infrastructure.Authorize;
 using SchoolManagementSystem.Interfaces;
 using System.Runtime.InteropServices;
 
@@ -7,6 +9,7 @@ namespace SchoolManagementSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [CustomAuthorize]
     public class RolesController : ControllerBase
     {
         private readonly IRoleService _roleService;

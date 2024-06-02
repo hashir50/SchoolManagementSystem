@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using SchoolManagementSystem.Domain.Entitites;
+﻿using Microsoft.AspNetCore.Mvc;
 using SchoolManagementSystem.DTOs;
+using SchoolManagementSystem.Infrastructure.Authorize;
 using SchoolManagementSystem.Interfaces;
-using SchoolManagementSystem.Services;
-using System.Data;
 
 namespace SchoolManagementSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [CustomAuthorize]
     public class UsersController : ControllerBase
     {
 

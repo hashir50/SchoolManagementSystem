@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManagementSystem.Infrastructure.Authorize;
 using SchoolManagementSystem.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,6 +9,7 @@ namespace SchoolManagementSystem.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [CustomAuthorize]
     public class StudentsController : ControllerBase
     {
         private readonly IStudentService _studentService;
