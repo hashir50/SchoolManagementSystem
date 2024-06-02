@@ -1,10 +1,11 @@
 using SchoolManagementSystem.Domain.Entitites;
 using SchoolManagementSystem.Domain.Repositories;
 using SchoolManagementSystem.Domain.UnitOfWork;
+using SchoolManagementSystem.Interfaces;
 
 namespace SchoolManagementSystem.Services
 {
-  public class StudentService :IStudentService
+    public class StudentService :IStudentService
   {
     private IUnitOfWork _unitOfWork { get; set; }
     private IGenericRepository<Student> _studentRepository { get; set; }

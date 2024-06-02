@@ -1,34 +1,28 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using SchoolManagementSystem.Domain.Entitites;
+﻿using Microsoft.AspNetCore.Mvc;
 using SchoolManagementSystem.DTOs;
 using SchoolManagementSystem.Interfaces;
-using SchoolManagementSystem.Services;
-using System.Data;
+using System.Runtime.InteropServices;
 
 namespace SchoolManagementSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class RolesController : ControllerBase
     {
+        private readonly IRoleService _roleService;
 
-        private readonly IUserService _userService;
-
-        public UsersController(IUserService userService)
+        public RolesController(IRoleService roleService)
         {
-            _userService = userService;
+            this._roleService = roleService;
         }
-
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get()
         {
             try
             {
-
-                var response = await _userService.GetAll();
+                var response = await _roleService.GetAll();
                 return Ok(response);
             }
             catch (Exception ex)
@@ -41,13 +35,14 @@ namespace SchoolManagementSystem.Controllers
                 return BadRequest(errorDetails);
             }
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             try
             {
-                var response = await _userService.Get(id);
-                return response == null ? NotFound(new { message = $"User with ID {id} was not found." }) : Ok(response);
+                var response = await _roleService.Get(id);
+                return response == null ? NotFound(new { message = $"Role with ID {id} was not found." }) : Ok(response);
             }
             catch (Exception ex)
             {
@@ -60,16 +55,14 @@ namespace SchoolManagementSystem.Controllers
             }
         }
 
-        // POST api/<UsersController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] UserDTO user)
+        public async Task<IActionResult> Post([FromBody] RoleDTO role)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-
-                var response = await _userService.Add(user);
+                var response = await _roleService.Add(role);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -82,22 +75,20 @@ namespace SchoolManagementSystem.Controllers
                 return BadRequest(errorDetails);
             }
         }
-
-        // PUT api/<UsersController>/5
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] UserDTO user)
+        public async Task<IActionResult> Put([FromBody] RoleDTO role)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                var userById = await _userService.Get(user.UserID);
-                if (userById is null)
-                    return NotFound(new { message = $"User with ID {user.UserID} was not found." });
 
-                var response = await _userService.Edit(user);
+                var roleById = await _roleService.Get(role.RoleID);
+                if (roleById is null)
+                    return NotFound(new { message = $"Role with ID {role.RoleID} was not found." });
+
+                var response = await _roleService.Edit(role);
                 return Ok(response);
-
             }
             catch (Exception ex)
             {
@@ -110,7 +101,7 @@ namespace SchoolManagementSystem.Controllers
             }
         }
 
-        // DELETE api/<UsersController>/5
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -118,7 +109,7 @@ namespace SchoolManagementSystem.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                var response = await _userService.Delete(id);
+                var response = await _roleService.Delete(id);
                 return Ok(response);
             }
             catch (Exception ex)

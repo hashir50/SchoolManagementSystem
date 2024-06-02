@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SchoolManagementSystem.Services;
+using SchoolManagementSystem.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace SchoolManagementSystem.Controllers
 {
- 
+
     [Route("api/[controller]")]
     [ApiController]
     public class StudentsController : ControllerBase
@@ -22,8 +22,20 @@ namespace SchoolManagementSystem.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
-            var response = await _studentService.GetAll();
-            return Ok(response);
+            try
+            {
+                var response = await _studentService.GetAll();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var errorDetails = new
+                {
+                    message = ex.Message,
+                    innerException = ex.InnerException?.Message
+                };
+                return BadRequest(errorDetails);
+            }
         }
     }
 }

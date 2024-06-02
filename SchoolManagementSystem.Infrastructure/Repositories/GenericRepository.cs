@@ -33,8 +33,8 @@ namespace SchoolManagementSystem.Infrastructure
             if (obj is BaseEntity baseEntity)
             {
                 baseEntity.IsDeleted = true;
-                baseEntity.ModifiedDate = DateTime.UtcNow;
-                baseEntity.ModifiedBy = ""; 
+                baseEntity.ModifiedAt = DateTime.UtcNow;
+                baseEntity.ModifiedBy = "";
                 DbSet.Attach(obj);
                 _context.Entry(obj).State = EntityState.Modified;
             }
@@ -124,11 +124,15 @@ namespace SchoolManagementSystem.Infrastructure
 
         public void Insert(T obj)
         {
+            if (obj is BaseEntity baseEntity)
+                baseEntity.CreatedAt = DateTime.UtcNow;
             DbSet.Add(obj);
         }
 
         public async Task InsertAsync(T obj)
         {
+            if (obj is BaseEntity baseEntity)
+                baseEntity.CreatedAt = DateTime.UtcNow;
             await DbSet.AddAsync(obj);
         }
 
@@ -139,8 +143,15 @@ namespace SchoolManagementSystem.Infrastructure
 
         public void Update(T obj)
         {
-            DbSet.Attach(obj);
-            _context.Entry(obj).State = EntityState.Modified;
+            var entry = _context.Entry(obj);
+            if (entry.State == EntityState.Detached)
+            {
+                DbSet.Attach(obj);
+            }
+                if (obj is BaseEntity baseEntity)
+                    baseEntity.ModifiedAt = DateTime.UtcNow;
+                
+            entry.State = EntityState.Modified;
         }
 
         public void UpdateRange(List<T> obj)

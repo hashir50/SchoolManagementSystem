@@ -2,6 +2,7 @@ using SchoolManagementSystem.Domain.Entitites;
 using SchoolManagementSystem.Domain.Repositories;
 using SchoolManagementSystem.Domain.UnitOfWork;
 using SchoolManagementSystem.DTOs;
+using SchoolManagementSystem.Interfaces;
 
 namespace SchoolManagementSystem.Services
 {
@@ -24,10 +25,9 @@ namespace SchoolManagementSystem.Services
         {
             try
             {
-
                 User user = new();
                 user.RoleID = userDTO.RoleID;
-                user.Username= userDTO.Username;
+                user.Username = userDTO.Username;
                 user.Password = userDTO.Password;
                 user.Email = userDTO.Email;
 
@@ -40,6 +40,48 @@ namespace SchoolManagementSystem.Services
                 throw;
             }
         }
+        public async Task<IEnumerable<User>> Edit(UserDTO userDto)
+        {
+
+            try
+            {
+                var existingUser = await _userRepository.GetByIdAsync(userDto.UserID);
+                if (existingUser == null)
+                    throw new KeyNotFoundException($"User with ID {userDto.UserID} was not found.");
+                
+                existingUser.UserID = userDto.UserID;
+                existingUser.RoleID = userDto.RoleID;
+                existingUser.Username = userDto.Username;
+                existingUser.Password = userDto.Password;
+                existingUser.Email = userDto.Email;
+
+                _userRepository.Update(existingUser);
+                await _userRepository.SaveAsync();
+                return await _userRepository.GetAllAsync();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<User>> Delete(int id)
+        {
+            try
+            {
+                User user = await this.Get(id);
+                if (user == null)
+                    throw new KeyNotFoundException($"User with ID {id} was not found.");
+
+                _userRepository.Delete(user);
+                await _userRepository.SaveAsync();
+                return await _userRepository.GetAllAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
- 
