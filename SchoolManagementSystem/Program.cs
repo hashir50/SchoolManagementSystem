@@ -24,6 +24,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 //builder.Services.Configure<FormOptions>(options =>
