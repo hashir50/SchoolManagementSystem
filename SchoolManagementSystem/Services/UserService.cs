@@ -32,7 +32,7 @@ namespace SchoolManagementSystem.Services
                 user.Email = userDTO.Email;
 
                 await _userRepository.InsertAsync(user);
-                await _userRepository.SaveAsync();
+                await _unitOfWork.SaveAsync();
                 return await _userRepository.GetAllAsync();
             }
             catch (Exception)
@@ -56,7 +56,7 @@ namespace SchoolManagementSystem.Services
                 existingUser.Email = userDto.Email;
 
                 _userRepository.Update(existingUser);
-                await _userRepository.SaveAsync();
+                await _unitOfWork.SaveAsync();
                 return await _userRepository.GetAllAsync();
 
             }
@@ -75,7 +75,7 @@ namespace SchoolManagementSystem.Services
                     throw new KeyNotFoundException($"User with ID {id} was not found.");
 
                 _userRepository.Delete(user);
-                await _userRepository.SaveAsync();
+                await _unitOfWork.SaveAsync();
                 return await _userRepository.GetAllAsync();
             }
             catch (Exception)

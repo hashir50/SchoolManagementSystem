@@ -5,16 +5,15 @@ using SchoolManagementSystem.Services;
 
 namespace SchoolManagementSystem.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentsController : ControllerBase
+    public class PermissionsController : ControllerBase
     {
-        private readonly IStudentService _studentService;
+        private readonly IPermissionService _permissionService;
 
-        public StudentsController(IStudentService studentService)
+        public PermissionsController(IPermissionService permissionService)
         {
-            _studentService = studentService;
+            _permissionService = permissionService;
         }
 
         [HttpGet]
@@ -24,7 +23,7 @@ namespace SchoolManagementSystem.Controllers
         {
             try
             {
-                var response = await _studentService.GetAll();
+                var response = await _permissionService.GetAll();
                 return Ok(response);
             }
             catch (Exception ex)
@@ -43,8 +42,8 @@ namespace SchoolManagementSystem.Controllers
         {
             try
             {
-                var response = await _studentService.Get(id);
-                return response == null ? NotFound(new { message = $"Student with ID {id} was not found." }) : Ok(response);
+                var response = await _permissionService.Get(id);
+                return response == null ? NotFound(new { message = $"Permission with ID {id} was not found." }) : Ok(response);
             }
             catch (Exception ex)
             {
@@ -58,13 +57,13 @@ namespace SchoolManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] StudentDTO student)
+        public async Task<IActionResult> Post([FromBody] PermissionDTO role)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                var response = await _studentService.Add(student);
+                var response = await _permissionService.Add(role);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -79,16 +78,16 @@ namespace SchoolManagementSystem.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] StudentDTO student)
+        public async Task<IActionResult> Put([FromBody] PermissionDTO role)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                var studentById = await _studentService.Get(student.StudentID);
-                if (studentById is null)
-                    return NotFound(new { message = $"Student with ID {student.StudentID} was not found." });
-                var response = await _studentService.Edit(student);
+                var roleById = await _permissionService.Get(role.PermissionID);
+                if (roleById is null)
+                    return NotFound(new { message = $"Permission with ID {role.PermissionID} was not found." });
+                var response = await _permissionService.Edit(role);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -109,7 +108,7 @@ namespace SchoolManagementSystem.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                var response = await _studentService.Delete(id);
+                var response = await _permissionService.Delete(id);
                 return Ok(response);
             }
             catch (Exception ex)
