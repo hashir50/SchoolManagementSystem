@@ -22,31 +22,6 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.ActionViewModel", b =>
-                {
-                    b.Property<int>("ActionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ActionId"));
-
-                    b.Property<string>("ActionName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActionAllow")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("PageViewModelPageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ActionId");
-
-                    b.HasIndex("PageViewModelPageId");
-
-                    b.ToTable("ActionViewModel");
-                });
-
             modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.Attendance", b =>
                 {
                     b.Property<int>("AttendanceID")
@@ -73,17 +48,17 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentID")
+                    b.Property<int?>("StudentID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TeacherID")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("AttendanceID");
 
                     b.HasIndex("StudentID");
 
-                    b.HasIndex("TeacherID");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Attendances");
                 });
@@ -157,69 +132,107 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     b.ToTable("Enrollments");
                 });
 
-            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.ModuleViewModel", b =>
+            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.Module", b =>
                 {
-                    b.Property<int>("ModuleId")
+                    b.Property<int>("ModuleID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ModuleId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ModuleID"));
 
-                    b.Property<bool>("IsModuleAllow")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModuleName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PermissionID")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<bool>("show_on_main")
+                        .HasColumnType("bit");
 
-                    b.HasKey("ModuleId");
+                    b.Property<bool>("show_on_settings")
+                        .HasColumnType("bit");
 
-                    b.HasIndex("PermissionID");
+                    b.HasKey("ModuleID");
 
-                    b.ToTable("ModuleViewModel");
+                    b.ToTable("Module");
                 });
 
-            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.PageViewModel", b =>
+            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.Page", b =>
                 {
-                    b.Property<int>("PageId")
+                    b.Property<int>("PageID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PageId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PageID"));
 
-                    b.Property<bool>("IsPageAllow")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ModuleViewModelModuleId")
+                    b.Property<int>("ModuleID")
                         .HasColumnType("int");
 
-                    b.Property<string>("PageName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PageId");
+                    b.Property<string>("Route")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("ModuleViewModelModuleId");
+                    b.Property<bool>("show_on_main")
+                        .HasColumnType("bit");
 
-                    b.ToTable("PageViewModel");
+                    b.Property<bool>("show_on_nav")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("show_on_setting")
+                        .HasColumnType("bit");
+
+                    b.HasKey("PageID");
+
+                    b.HasIndex("ModuleID");
+
+                    b.ToTable("Page");
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.Permission", b =>
                 {
-                    b.Property<string>("PermissionID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("RoleId")
+                    b.Property<int>("PermissionID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("RoleName")
-                        .IsRequired()
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PermissionID"));
+
+                    b.Property<bool>("Create")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PageID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Update")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("View")
+                        .HasColumnType("bit");
+
                     b.HasKey("PermissionID");
+
+                    b.HasIndex("PageID");
+
+                    b.HasIndex("RoleID");
 
                     b.ToTable("Permissions");
                 });
@@ -333,9 +346,8 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -396,14 +408,9 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeacherID")
-                        .HasColumnType("int");
-
                     b.HasKey("SubjectID");
 
                     b.HasIndex("ClassID");
-
-                    b.HasIndex("TeacherID");
 
                     b.ToTable("Subjects");
                 });
@@ -473,9 +480,8 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("HireDate")
                         .HasColumnType("datetime2");
@@ -554,28 +560,20 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.ActionViewModel", b =>
-                {
-                    b.HasOne("SchoolManagementSystem.Domain.Entitites.PageViewModel", null)
-                        .WithMany("ActionViewModel")
-                        .HasForeignKey("PageViewModelPageId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
             modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.Attendance", b =>
                 {
-                    b.HasOne("SchoolManagementSystem.Domain.Entitites.Student", "Student")
+                    b.HasOne("SchoolManagementSystem.Domain.Entitites.Student", null)
                         .WithMany("Attendances")
                         .HasForeignKey("StudentID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SchoolManagementSystem.Domain.Entitites.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SchoolManagementSystem.Domain.Entitites.Teacher", null)
-                        .WithMany("Attendances")
-                        .HasForeignKey("TeacherID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Student");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.Enrollment", b =>
@@ -597,20 +595,34 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.ModuleViewModel", b =>
+            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.Page", b =>
                 {
-                    b.HasOne("SchoolManagementSystem.Domain.Entitites.Permission", null)
-                        .WithMany("ModuleViewModels")
-                        .HasForeignKey("PermissionID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SchoolManagementSystem.Domain.Entitites.Module", "Module")
+                        .WithMany()
+                        .HasForeignKey("ModuleID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Module");
                 });
 
-            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.PageViewModel", b =>
+            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.Permission", b =>
                 {
-                    b.HasOne("SchoolManagementSystem.Domain.Entitites.ModuleViewModel", null)
-                        .WithMany("PageViewModel")
-                        .HasForeignKey("ModuleViewModelModuleId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SchoolManagementSystem.Domain.Entitites.Page", "Page")
+                        .WithMany()
+                        .HasForeignKey("PageID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SchoolManagementSystem.Domain.Entitites.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Page");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.Result", b =>
@@ -648,11 +660,6 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     b.HasOne("SchoolManagementSystem.Domain.Entitites.Class", null)
                         .WithMany("Subject")
                         .HasForeignKey("ClassID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SchoolManagementSystem.Domain.Entitites.Teacher", null)
-                        .WithMany("Courses")
-                        .HasForeignKey("TeacherID")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -702,21 +709,6 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.ModuleViewModel", b =>
-                {
-                    b.Navigation("PageViewModel");
-                });
-
-            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.PageViewModel", b =>
-                {
-                    b.Navigation("ActionViewModel");
-                });
-
-            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.Permission", b =>
-                {
-                    b.Navigation("ModuleViewModels");
-                });
-
             modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.Result", b =>
                 {
                     b.Navigation("SubjectResults");
@@ -727,13 +719,6 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     b.Navigation("Attendances");
 
                     b.Navigation("Enrollments");
-                });
-
-            modelBuilder.Entity("SchoolManagementSystem.Domain.Entitites.Teacher", b =>
-                {
-                    b.Navigation("Attendances");
-
-                    b.Navigation("Courses");
                 });
 #pragma warning restore 612, 618
         }

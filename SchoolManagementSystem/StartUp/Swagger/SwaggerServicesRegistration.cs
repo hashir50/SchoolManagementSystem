@@ -52,7 +52,8 @@ namespace SchoolManagementSystem.StartUp.Swagger
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
-                c.RoutePrefix = "app-swagger";
+                c.RoutePrefix = "swagger";
+               // c.RoutePrefix = "app-swagger";
             });
 
             return app;

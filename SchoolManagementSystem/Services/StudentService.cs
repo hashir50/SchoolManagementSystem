@@ -22,7 +22,7 @@ namespace SchoolManagementSystem.Services
         {
             try
             {
-                return await _studentRepository.GetAllAsync();
+                return await _studentRepository.GetAll(["User"]);
             }
             catch (Exception)
             {
@@ -59,7 +59,7 @@ namespace SchoolManagementSystem.Services
 
                 await _studentRepository.InsertAsync(student);
                 await _unitOfWork.SaveAsync();
-                return await _studentRepository.GetAllAsync();
+                return await this.GetAll();
             }
             catch (Exception)
             {
@@ -87,7 +87,7 @@ namespace SchoolManagementSystem.Services
                 _studentRepository.Update(existingStudent);
                 await _unitOfWork.SaveAsync();
 
-                return await _studentRepository.GetAllAsync();
+                return await this.GetAll();
             }
             catch (Exception)
             {
@@ -105,7 +105,7 @@ namespace SchoolManagementSystem.Services
 
                 _studentRepository.Delete(student);
                 await _unitOfWork.SaveAsync();
-                return await _studentRepository.GetAllAsync();
+                return await this.GetAll();
             }
             catch (Exception)
             {
