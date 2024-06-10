@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SchoolManagementSystem.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,8 +20,9 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     SubjectID = table.Column<int>(type: "int", nullable: false),
                     ClassDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,16 +30,18 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Permissions",
+                name: "Module",
                 columns: table => new
                 {
-                    PermissionID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
-                    RoleName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ModuleID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    show_on_main = table.Column<bool>(type: "bit", nullable: false),
+                    show_on_settings = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Permissions", x => x.PermissionID);
+                    table.PrimaryKey("PK_Module", x => x.ModuleID);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,8 +53,9 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     RoleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,23 +63,51 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ModuleViewModel",
+                name: "Subjects",
                 columns: table => new
                 {
-                    ModuleId = table.Column<int>(type: "int", nullable: false)
+                    SubjectID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ModuleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsModuleAllow = table.Column<bool>(type: "bit", nullable: false),
-                    PermissionID = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    SubjectName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClassID = table.Column<int>(type: "int", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ModuleViewModel", x => x.ModuleId);
+                    table.PrimaryKey("PK_Subjects", x => x.SubjectID);
                     table.ForeignKey(
-                        name: "FK_ModuleViewModel_Permissions_PermissionID",
-                        column: x => x.PermissionID,
-                        principalTable: "Permissions",
-                        principalColumn: "PermissionID",
+                        name: "FK_Subjects_Classes_ClassID",
+                        column: x => x.ClassID,
+                        principalTable: "Classes",
+                        principalColumn: "ClassID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Page",
+                columns: table => new
+                {
+                    PageID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Route = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModuleID = table.Column<int>(type: "int", nullable: false),
+                    show_on_main = table.Column<bool>(type: "bit", nullable: false),
+                    show_on_setting = table.Column<bool>(type: "bit", nullable: false),
+                    show_on_nav = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Page", x => x.PageID);
+                    table.ForeignKey(
+                        name: "FK_Page_Module_ModuleID",
+                        column: x => x.ModuleID,
+                        principalTable: "Module",
+                        principalColumn: "ModuleID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -90,8 +122,9 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoleID = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -105,23 +138,36 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PageViewModel",
+                name: "Permissions",
                 columns: table => new
                 {
-                    PageId = table.Column<int>(type: "int", nullable: false)
+                    PermissionID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsPageAllow = table.Column<bool>(type: "bit", nullable: false),
-                    ModuleViewModelModuleId = table.Column<int>(type: "int", nullable: true)
+                    View = table.Column<bool>(type: "bit", nullable: false),
+                    Update = table.Column<bool>(type: "bit", nullable: false),
+                    Create = table.Column<bool>(type: "bit", nullable: false),
+                    Delete = table.Column<bool>(type: "bit", nullable: false),
+                    RoleID = table.Column<int>(type: "int", nullable: false),
+                    PageID = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PageViewModel", x => x.PageId);
+                    table.PrimaryKey("PK_Permissions", x => x.PermissionID);
                     table.ForeignKey(
-                        name: "FK_PageViewModel_ModuleViewModel_ModuleViewModelModuleId",
-                        column: x => x.ModuleViewModelModuleId,
-                        principalTable: "ModuleViewModel",
-                        principalColumn: "ModuleId",
+                        name: "FK_Permissions_Page_PageID",
+                        column: x => x.PageID,
+                        principalTable: "Page",
+                        principalColumn: "PageID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Permissions_Roles_RoleID",
+                        column: x => x.RoleID,
+                        principalTable: "Roles",
+                        principalColumn: "RoleID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -134,14 +180,15 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AdmissionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -163,15 +210,16 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Specialization = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -185,23 +233,34 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ActionViewModel",
+                name: "Attendances",
                 columns: table => new
                 {
-                    ActionId = table.Column<int>(type: "int", nullable: false)
+                    AttendanceID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ActionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsActionAllow = table.Column<bool>(type: "bit", nullable: false),
-                    PageViewModelPageId = table.Column<int>(type: "int", nullable: true)
+                    UserID = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    StudentID = table.Column<int>(type: "int", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ActionViewModel", x => x.ActionId);
+                    table.PrimaryKey("PK_Attendances", x => x.AttendanceID);
                     table.ForeignKey(
-                        name: "FK_ActionViewModel_PageViewModel_PageViewModelPageId",
-                        column: x => x.PageViewModelPageId,
-                        principalTable: "PageViewModel",
-                        principalColumn: "PageId",
+                        name: "FK_Attendances_Students_StudentID",
+                        column: x => x.StudentID,
+                        principalTable: "Students",
+                        principalColumn: "StudentID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Attendances_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -215,8 +274,9 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     ClassID = table.Column<int>(type: "int", nullable: false),
                     EnrollmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -248,8 +308,9 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     ObtainedMarks = table.Column<double>(type: "float", nullable: false),
                     ResultType = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -269,68 +330,6 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Attendances",
-                columns: table => new
-                {
-                    AttendanceID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentID = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    TeacherID = table.Column<int>(type: "int", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Attendances", x => x.AttendanceID);
-                    table.ForeignKey(
-                        name: "FK_Attendances_Students_StudentID",
-                        column: x => x.StudentID,
-                        principalTable: "Students",
-                        principalColumn: "StudentID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Attendances_Teachers_TeacherID",
-                        column: x => x.TeacherID,
-                        principalTable: "Teachers",
-                        principalColumn: "TeacherID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Subjects",
-                columns: table => new
-                {
-                    SubjectID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SubjectName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ClassID = table.Column<int>(type: "int", nullable: true),
-                    TeacherID = table.Column<int>(type: "int", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Subjects", x => x.SubjectID);
-                    table.ForeignKey(
-                        name: "FK_Subjects_Classes_ClassID",
-                        column: x => x.ClassID,
-                        principalTable: "Classes",
-                        principalColumn: "ClassID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Subjects_Teachers_TeacherID",
-                        column: x => x.TeacherID,
-                        principalTable: "Teachers",
-                        principalColumn: "TeacherID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SubjectResults",
                 columns: table => new
                 {
@@ -341,8 +340,9 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                     TotalMarks = table.Column<double>(type: "float", nullable: false),
                     ObtainedMarks = table.Column<double>(type: "float", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -362,19 +362,14 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ActionViewModel_PageViewModelPageId",
-                table: "ActionViewModel",
-                column: "PageViewModelPageId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Attendances_StudentID",
                 table: "Attendances",
                 column: "StudentID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attendances_TeacherID",
+                name: "IX_Attendances_UserID",
                 table: "Attendances",
-                column: "TeacherID");
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Enrollments_ClassID",
@@ -387,14 +382,19 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                 column: "StudentID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ModuleViewModel_PermissionID",
-                table: "ModuleViewModel",
-                column: "PermissionID");
+                name: "IX_Page_ModuleID",
+                table: "Page",
+                column: "ModuleID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PageViewModel_ModuleViewModelModuleId",
-                table: "PageViewModel",
-                column: "ModuleViewModelModuleId");
+                name: "IX_Permissions_PageID",
+                table: "Permissions",
+                column: "PageID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Permissions_RoleID",
+                table: "Permissions",
+                column: "RoleID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Results_ClassID",
@@ -427,11 +427,6 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                 column: "ClassID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subjects_TeacherID",
-                table: "Subjects",
-                column: "TeacherID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Teachers_UserID",
                 table: "Teachers",
                 column: "UserID");
@@ -446,19 +441,22 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ActionViewModel");
-
-            migrationBuilder.DropTable(
                 name: "Attendances");
 
             migrationBuilder.DropTable(
                 name: "Enrollments");
 
             migrationBuilder.DropTable(
+                name: "Permissions");
+
+            migrationBuilder.DropTable(
                 name: "SubjectResults");
 
             migrationBuilder.DropTable(
-                name: "PageViewModel");
+                name: "Teachers");
+
+            migrationBuilder.DropTable(
+                name: "Page");
 
             migrationBuilder.DropTable(
                 name: "Results");
@@ -467,19 +465,13 @@ namespace SchoolManagementSystem.Infrastructure.Migrations
                 name: "Subjects");
 
             migrationBuilder.DropTable(
-                name: "ModuleViewModel");
+                name: "Module");
 
             migrationBuilder.DropTable(
                 name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Classes");
-
-            migrationBuilder.DropTable(
-                name: "Teachers");
-
-            migrationBuilder.DropTable(
-                name: "Permissions");
 
             migrationBuilder.DropTable(
                 name: "Users");

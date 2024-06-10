@@ -31,6 +31,7 @@ builder.Services.AddSwaggerGen();
 //Configure interfaces and services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -66,6 +67,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.ConfigureSwaggerApp();
+
 }
 
 app.UseMiddleware<JwtMiddleware>();

@@ -6,9 +6,8 @@ namespace SchoolManagementSystem.Domain.Repositories
     {
         Task<int> SaveAsync();
         Task<T> GetByIdAsync(int id);
-
+        Task<List<T>> GetAll(params string[] navigationProperties);
         Task InsertAsync(T obj);
-
         IEnumerable<dynamic> GetAllListDyn();
         IEnumerable<T> GetAll();
         Task<IEnumerable<T>> GetAllAsync();
