@@ -84,9 +84,9 @@ namespace SchoolManagementSystem.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var subjectById = await _subjectService.Get(subject.SubjectId);
+                var subjectById = await _subjectService.Get(subject.SubjectID);
                 if (subjectById is null)
-                    return NotFound(new { message = $"Subject with ID {subject.SubjectId} was not found." });
+                    return NotFound(new { message = $"Subject with ID {subject.SubjectID} was not found." });
 
                 var response = await _subjectService.Edit(subject);
                 return Ok(response);

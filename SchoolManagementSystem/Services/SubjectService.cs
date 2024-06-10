@@ -29,7 +29,7 @@ namespace SchoolManagementSystem.Services
             try
             {
                 Subject subject = new();
-                subject.SubjectID = subjectDTO.SubjectId;
+                subject.SubjectID = subjectDTO.SubjectID;
                 subject.SubjectName = subjectDTO.Name;
                 subject.Description = subjectDTO.Description;
 
@@ -47,10 +47,10 @@ namespace SchoolManagementSystem.Services
         {
             try
             {
-                var existingSubject = await _subjectRepository.GetByIdAsync(subjectDTO.SubjectId);
+                var existingSubject = await _subjectRepository.GetByIdAsync(subjectDTO.SubjectID);
                 if (existingSubject == null)
                 {
-                    throw new KeyNotFoundException($"Subject with ID {subjectDTO.SubjectId} was not found.");
+                    throw new KeyNotFoundException($"Subject with ID {subjectDTO.SubjectID} was not found.");
                 }
 
                 existingSubject.SubjectName = subjectDTO.Name;
