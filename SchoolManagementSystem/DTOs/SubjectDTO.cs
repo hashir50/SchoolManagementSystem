@@ -2,7 +2,7 @@
 {
     public record SubjectDTO
     (
-        int SubjectId,
+        int SubjectID,
 
         string Name,
 
