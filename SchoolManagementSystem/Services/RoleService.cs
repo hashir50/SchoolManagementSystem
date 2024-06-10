@@ -17,7 +17,7 @@ namespace SchoolManagementSystem.Services
             _roleRepository = unitOfWork.GenericRepository<Role>();
         }
         public async Task<IEnumerable<Role>> GetAll()
-             => await _roleRepository.GetAllAsync();
+             => await this.GetAll();
 
         public async Task<Role> Get(int id)
         {
@@ -35,7 +35,7 @@ namespace SchoolManagementSystem.Services
 
                 await _roleRepository.InsertAsync(role);
                 await _unitOfWork.SaveAsync();
-                return await _roleRepository.GetAllAsync();
+                return await this.GetAll();
             }
             catch (Exception)
             {
@@ -59,7 +59,7 @@ namespace SchoolManagementSystem.Services
                 _roleRepository.Update(existingRole);
                 await _unitOfWork.SaveAsync();
 
-                return await _roleRepository.GetAllAsync();
+                return await this.GetAll();
             }
             catch (Exception)
             {
@@ -78,7 +78,7 @@ namespace SchoolManagementSystem.Services
                 }
                 _roleRepository.Delete(role);
                 await _unitOfWork.SaveAsync();
-                return await _roleRepository.GetAllAsync();
+                return await this.GetAll();
             }
             catch (Exception)
             {
